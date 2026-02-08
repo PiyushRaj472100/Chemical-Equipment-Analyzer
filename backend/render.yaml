@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: chemical-equipment-analyzer-api
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "gunicorn chemical_analyzer.wsgi:application"
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.16
+      - key: DJANGO_SETTINGS_MODULE
+        value: chemical_analyzer.settings
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: false
+      - key: ALLOWED_HOSTS
+        value: .onrender.com
+    autoDeploy: true

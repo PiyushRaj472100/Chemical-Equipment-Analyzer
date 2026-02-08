@@ -9,12 +9,12 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-chemical-equipment-analyzer-dev-key-2024'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-chemical-equipment-analyzer-dev-key-2024')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 # Application definition
 INSTALLED_APPS = [
@@ -69,6 +69,11 @@ DATABASES = {
     }
 }
 
+# Production Database (PostgreSQL on Render)
+if 'DATABASE_URL' in os.environ:
+    import dj_database_url
+    DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL'))
+
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -98,7 +103,14 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
+if DEBUG:
+    CORS_ALLOW_ALL_ORIGINS = True
+else:
+    CORS_ALLOWED_ORIGINS = [
+        "https://your-vercel-app.vercel.app",  # Replace with your Vercel URL
+        "http://localhost:3000",
+        "http://localhost:3001",
+    ]
 CORS_ALLOW_CREDENTIALS = True
 
 # REST Framework settings

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FiDownload, FiEye } from 'react-icons/fi';
 import './History.css';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
 
 function History() {
   const [history, setHistory] = useState([]);
