@@ -3,11 +3,11 @@ services:
     name: chemical-equipment-analyzer-api
     env: python
     plan: free
-    buildCommand: "pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt && python manage.py migrate"
+    buildCommand: "pip install --upgrade pip setuptools wheel && pip install --no-cache-dir -r requirements.txt && python manage.py migrate"
     startCommand: "gunicorn chemical_analyzer.wsgi:application"
     envVars:
       - key: PYTHON_VERSION
-        value: 3.11.7
+        value: 3.9.19
       - key: DJANGO_SETTINGS_MODULE
         value: chemical_analyzer.settings
       - key: SECRET_KEY
