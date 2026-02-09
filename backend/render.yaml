@@ -3,7 +3,7 @@ services:
     name: chemical-equipment-analyzer-api
     env: python
     plan: free
-    buildCommand: "pip install -r requirements.txt && python manage.py migrate"
+    buildCommand: "pip install --upgrade pip && pip install -r requirements.txt && python manage.py migrate"
     startCommand: "gunicorn chemical_analyzer.wsgi:application"
     envVars:
       - key: PYTHON_VERSION
